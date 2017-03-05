@@ -12,8 +12,13 @@ class Node:
       self.params.append(0)
 
   def output(self, inputvector):
+    # All nodes have the same amount of parameters.
+    # However, the first hidden layer only needs the 
+    # amount of parameters equal to the dimension of the input.
+    Range = min(len(inputvector), len(self.params))    
+
     ret = 0
-    for param in range(len(self.params)):
+    for param in range(Range):
       ret = ret + self.params[param] * inputvector[param]
     return ret
 
@@ -27,7 +32,7 @@ class neuralNet:
     self.noflayers = noflayers
 
     for n in range(nofnodes * noflayers):
-      node = Node(dim)
+      node = Node(nofnodes)
       self.nodes.append(node)
 
   def printParams(self):
