@@ -48,7 +48,7 @@ def resize_write(fin, fout, resize=(300, 300)):
     img = imresize(img, resize)
     imsave(fout, img)
 
-def train_tree():
+def train_tree(path='training/'):
     """
     Train a Tree.
 
@@ -58,8 +58,8 @@ def train_tree():
     """
     X = []
     Y = [0, 1]
-    for filename in os.listdir('training/'):
-        img = imread(os.path.join('training/', filename))
+    for filename in os.listdir(path):
+        img = imread(os.path.join(path, filename))
         img = imresize(img, (300, 300))
         img = np.array(img, dtype=np.float64) / 255
 
@@ -217,4 +217,29 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 2 :
+        if sys.argv[1] == 'GetImage':
+            raw_images = os.listdir(sys.argv[2])
+            img_fn = raw_images[random.randint(0, len(raw_images)) - 1]
+            resize_write(os.path.join(sys.argv[2], img_fn),
+                         os.path.join(sys.argv[3], 'img.png'))
+            print("Image written to ", sys.argv[3])
+        elif sys.argv[1] == 'ClusterImage':
+            clusters = cluster_image(sys.argv[2])
+            fout = open(os.path.join(sys.argv[3], 'cluster.txt'), 'w')
+            fout.write("%f %f %f %f %f %f %f %f %f" % (clusters))
+            fout.close()
+            print("Clusterfile written to ", sys.argv[3])
+        elif sys.argv[1] == 'TrainClassifier':
+            clf = train_tree(sys.argv[2])
+            pickle.dump(clf, open(os.path.join(sys.argv[3], 'clf.pkl'), "wb"))
+            print("Classifier written to ", sys.argv[3])
+        elif sys.argv[1] == 'PredictLabel':
+            label = predict(os.path.join(sys.argv[2], 'cluster.txt'),
+                            os.path.join(sys.argv[2], 'clf.pkl'))
+            fout = open(os.path.join(sys.argv[2], 'label.txt'), 'w')
+            fout.write("%f " % (label[0]))
+            fout.close()
+            print("Label written to ", sys.argv[2])
+    else:
+        main()
