@@ -2,9 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class map:
-
-    self.sides = None
-
+    """ base class for our room maps"""
     def plot(self):
         """
         plot map
