@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from maps import box
+import maps
 
 class vrobot:
     """
@@ -18,7 +18,7 @@ class vrobot:
         """
         self.position = np.array([x, y])
 
-    def scan(self, nofrays=20, length=2):
+    def scan(self, nofrays=20, length=5):
         """
         Scan surroundings.
 
@@ -49,6 +49,7 @@ class vrobot:
 
                 if inter is not None:
                     points = np.append(points, inter)
+                    break
 
         self.points = points.reshape(int(len(points)/2), 2)
 
@@ -64,6 +65,14 @@ class vrobot:
             plt.plot(point[0], point[1], 'o', color='red')
 
         plt.plot(self.position[0], self.position[1], 'o', color='green')
+
+    def features(self):
+        """
+        Lengths of reflected rays.
+        """
+        return np.array([np.sqrt((self.position[0] - point[0])**2 +
+                                 (self.position[1] - point[1])**2)
+                         for point in self.points])
 
     def intersect(self, ray, wall, tol=.01):
         """
@@ -120,8 +129,8 @@ class vrobot:
             return False
 
 if __name__ == '__main__':
-    b = box()
-    r = vrobot(-.7, .5)
+    b = maps.simple_sketch()
+    r = vrobot(.5, -.5)
 
     r.scan()
     r.reflect(b)
@@ -129,6 +138,7 @@ if __name__ == '__main__':
     b.plot()
     r.plot()
 
+    print(r.features())
 
-    plt.axis([-2, 2, -2, 2])
+    plt.axis([-6, 2, -2, 4])
     plt.show()
