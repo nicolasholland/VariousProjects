@@ -25,11 +25,12 @@ class vrobot:
         Parameters
         ----------
         nofrays : int, default 20
-        length : float, default 2
+        length : float, default 5
         """
-        rays = np.array([[np.cos(x), np.sin(x)] for x in np.linspace(0, 2*np.pi,
-                                                                     nofrays)])
-        self.rays = rays * length
+        rays = np.array([[np.cos(x) * length + self.position[0],
+                          np.sin(x) * length + self.position[1]]
+                          for x in np.linspace(0, 2*np.pi, nofrays)])
+        self.rays = rays
 
     def reflect(self, maps):
         """
@@ -42,14 +43,25 @@ class vrobot:
         points = np.array([])
         for i in range(len(self.rays)):
             ray = np.array([self.position, self.rays[i]])
+            thisinter = None
             for j in range(len(maps.sides)):
                 wall = maps.sides[j]
 
-                inter = r.intersect(ray, wall)
+                inter = self.intersect(ray, wall)
 
                 if inter is not None:
-                    points = np.append(points, inter)
-                    break
+                    if thisinter is None:
+                        thisinter = inter
+                    else:
+                        distold = np.sqrt((self.position[0] - thisinter[0])**2 +
+                                          (self.position[1] - thisinter[1])**2)
+                        distnew = np.sqrt((self.position[0] - inter[0])**2 +
+                                          (self.position[1] - inter[1])**2)
+                        if distnew < distold:
+                            thisinter = inter
+
+            if thisinter is not None:
+                points = np.append(points, thisinter)
 
         self.points = points.reshape(int(len(points)/2), 2)
 
@@ -103,8 +115,8 @@ class vrobot:
             swall2 = np.copy(wall[:, 1])
             swall2.sort()
 
-            if (R[0] > sray1[0] and R[0] < sray1[1] and
-                R[1] > sray2[0] and R[1] < sray2[1] and
+            if (R[0] > sray1[0]-tol and R[0] < sray1[1]+tol and
+                R[1] > sray2[0]-tol and R[1] < sray2[1]+tol and
                 R[0] > swall1[0]-tol and R[0] < swall1[1]+tol and
                 R[1] > swall2[0]-tol and R[1] < swall2[1]+tol):
                 return np.array(R)
@@ -130,7 +142,7 @@ class vrobot:
 
 if __name__ == '__main__':
     b = maps.simple_sketch()
-    r = vrobot(.5, -.5)
+    r = vrobot(-3, 1.5)
 
     r.scan()
     r.reflect(b)
