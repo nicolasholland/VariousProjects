@@ -1,0 +1,15 @@
+<!doctype html>
+<title>Flowskr</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<div class=page>
+  <h1>Flowskr</h1>
+      <dl>
+          <dt>Upload two png files to compute the optical flow using Gunnar Farneback’s algorithm:
+          <form action = "http://localhost:5000/uploader" method = "POST"
+             enctype = "multipart/form-data">
+             <dd><input type = "file" name = "file1" />
+             <dd><input type = "file" name = "file2" />
+             <dd><input type = "submit"/>
+          </form>
+      </dl>
+</div>
