@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package polynom;
+
+message Polynom {
+  repeated float coefficient = 1;
+  repeated float inputs = 2;
+}
+
