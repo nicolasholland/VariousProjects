@@ -62,4 +62,33 @@ But I cant make it do anything:
 
 This all runs without error, but to the best of my knowledge, nothing happens?!
 
+Azul
+----
+
+This way feels a bit like cheating, but it works.
+[Azul](https://itunes.apple.com/nl/app/azul/id1173239678?mt=12) is one of the softwares that are recommended by [cityGML](https://www.citygml.org/software/).
+It can read the gml file and export it as a 3dsmax file (.3ds), which blender is able to read...
+
+Getting mesh information
+------------------------
+
+For now we do this "by hand" but we are confident, we can turn this into a script :D
+Once we imported the citygml 3ds model we can select meshes.
+We load the 3D Print Toolbox
+
+```
+File -> User Preferences -> Addons -> Mesh: 3D Print Toolbox
+```
+
+We switch to the 3D printing tab, where we can compute areas and volumes of meshes.
+Note that the areas are computed using the models unit!
+While you can change the unit in the units tab
+
+```
+Properties -> Scene -> Units
+```
+
+You still have to know the original unit of the model.
+Maybe we can get that from the gml file? Let's find out :D
+
 
