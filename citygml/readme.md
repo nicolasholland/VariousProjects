@@ -81,6 +81,21 @@ File -> User Preferences -> Addons -> Mesh: 3D Print Toolbox
 ```
 
 We switch to the 3D printing tab, where we can compute areas and volumes of meshes.
+
+Checking the blender script log reveals that this command let's us compute the area through code:
+
+```
+bpy.ops.mesh.print3d_info_area()
+```
+
+I guess we have to write some sort of loop over the available meshes and compute all areas.
+Also we have to identify the relevant meshes, e.g. roofs and outer walls.
+Btw if the log does not show commands for 'everything' you do, here is how we can change that:
+
+```
+bpy.app.debug_wm = True
+```
+
 Note that the areas are computed using the models unit!
 While you can change the unit in the units tab
 
