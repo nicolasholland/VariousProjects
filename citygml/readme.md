@@ -80,9 +80,14 @@ We load the 3D Print Toolbox
 File -> User Preferences -> Addons -> Mesh: 3D Print Toolbox
 ```
 
-We switch to the 3D printing tab, where we can compute areas and volumes of meshes.
+Or
 
-Checking the blender script log reveals that this command let's us compute the area through code:
+```
+bpy.ops.wm.addon_enable(module="object_print3d_utils")
+```
+
+We switch to the 3D printing tab, where we can compute areas and volumes of meshes.
+Checking the blender script log reveals that this command lets us compute the area through code:
 
 ```
 bpy.ops.mesh.print3d_info_area()
