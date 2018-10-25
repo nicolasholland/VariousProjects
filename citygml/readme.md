@@ -72,33 +72,39 @@ It can read the gml file and export it as a 3dsmax file (.3ds), which blender is
 Getting mesh information
 ------------------------
 
-For now we do this "by hand" but we are confident, we can turn this into a script :D
-Once we imported the citygml 3ds model we can select meshes.
-We load the 3D Print Toolbox
+Lets assume we have a 3d model of some buildings. 
+We already converted them from citygml to 3ds and now we want to compute areas of their roofs.
+
+Here is how our model could look like:
+
+![](https://raw.githubusercontent.com/nicolasholland/VariousProjects/master/citygml/images/singlebuilding.png)
+
+In order to compute the total roof area we can loop over all roof meshes and sum up their areas.
+Our area compute [script](https://github.com/nicolasholland/VariousProjects/blob/master/citygml/area_compute.py) contains a simple function for selecting meshes by their name and computing their area.
+How to know what meshes are part of the roof however is a bit tricky.
+We found the easiest way is to remove all non roof meshes and than simply loop over all meshes that are left :D
+
+![](https://raw.githubusercontent.com/nicolasholland/VariousProjects/master/citygml/images/justroof.png)
+
+The original citygml file (which is just an XML file) has every meshed labeled as RoofSurfaces.
+So we could simply loop over every entry in the GML file, extract only roof meshes and convert them to our blender input.
 
 ```
-File -> User Preferences -> Addons -> Mesh: 3D Print Toolbox
-```
-
-Or
-
-```
-bpy.ops.wm.addon_enable(module="object_print3d_utils")
-```
-
-We switch to the 3D printing tab, where we can compute areas and volumes of meshes.
-Checking the blender script log reveals that this command lets us compute the area through code:
-
-```
-bpy.ops.mesh.print3d_info_area()
-```
-
-I guess we have to write some sort of loop over the available meshes and compute all areas.
-Also we have to identify the relevant meshes, e.g. roofs and outer walls.
-Btw if the log does not show commands for 'everything' you do, here is how we can change that:
-
-```
-bpy.app.debug_wm = True
+<bldg:RoofSurface gml:id="GEOM_447005">
+    <bldg:lod2MultiSurface>
+        <gml:MultiSurface srsName="EPSG:25833" srsDimension="3">
+            <gml:surfaceMember>
+                <gml:Polygon gml:id="fme-gen-bec0fcbd-d143-11e8-b354-026a9c381164">
+                    <gml:exterior>
+                        <gml:LinearRing gml:id="fme-gen-bec0fcbd-d143-11e8-b354-026a9c381164_0">
+                            <gml:posList> *List of points* </gml:posList>
+                        </gml:LinearRing>
+                    </gml:exterior>
+                </gml:Polygon>
+            </gml:surfaceMember>
+        </gml:MultiSurface>
+    </bldg:lod2MultiSurface>
+</bldg:RoofSurface>
 ```
 
 Note that the areas are computed using the models unit!
@@ -109,6 +115,6 @@ Properties -> Scene -> Units
 ```
 
 You still have to know the original unit of the model.
-Maybe we can get that from the gml file? Let's find out :D
+
 
 
