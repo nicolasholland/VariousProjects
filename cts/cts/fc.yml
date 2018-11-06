@@ -1,0 +1,6 @@
+---
+lowerthan:
+    filter_kwargs:
+        bound: 4 
+        lowerflag: good
+        aboveflag: bad
