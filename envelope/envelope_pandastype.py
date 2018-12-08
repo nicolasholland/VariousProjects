@@ -10,7 +10,26 @@ Im missing something.
 """
 import numpy as np
 import pandas as pd
+from pandas.api.extensions import ExtensionDtype
 from pandas.core.arrays import ExtensionArray
+import abc
+
+class BaseType(abc.ABCMeta):
+    """ Type metaclass """
+    pass
+
+class EnvelopeType(ExtensionDtype):
+    name = 'envelope'
+    type = BaseType
+    kind = 'O'
+
+    @classmethod
+    def construct_from_string(cls, string):
+        if string == cls.name:
+            return cls()
+        else:
+            raise TypeError("Cannot construct a '{}' from "
+                            "'{}'".format(cls, string))
 
 
 class EnvelopeArray(ExtensionArray):
@@ -20,8 +39,8 @@ class EnvelopeArray(ExtensionArray):
     _can_hold_na = True
 
     def __init__(self, array, dtype=None, copy=None):
-        assert array.shape[1] == 2
-        assert (array[:, 0] <= array[:, 1]).all()
+        #assert array.shape[1] == 2
+        #assert (array[:, 0] <= array[:, 1]).all()
         self.data = array
         self.lower = array[:, 0]
         self.upper = array[:, 1]
@@ -30,8 +49,18 @@ class EnvelopeArray(ExtensionArray):
     def _from_factorized(cls, values, original):
         return cls(values)
 
+    def __str__(self):
+        return str(self.data)
+
+    def __repr__(self):
+        return self.__str__()
+
     def __getitem__(self, item):
-        return type(self)(self.data[item])
+        retval = type(self)(self.data[item])
+        if self.data.shape == (2,):
+            retval = type(self)(self.data)
+        #print("I AM CALLED getitem ", "item: ", item, "retval: ", retval, "shape ", self.data.shape)
+        return retval
 
     def __len__(self):
         """
@@ -40,11 +69,15 @@ class EnvelopeArray(ExtensionArray):
         -------
         length : int
         """
-        return len(self.data)
+        retval = self.data.shape[0]
+        if len(self.data.shape) == 1:
+            retval = 1
+        #print("Are you looking at me? ", "shape: ", self.data.shape, "retval ", retval)
+        return retval
 
     @property
     def dtype(self):
-        return self.data.dtype
+        return EnvelopeType() 
 
     @classmethod
     def _concat_same_type(cls, to_concat):
@@ -63,6 +96,7 @@ class EnvelopeArray(ExtensionArray):
         """
         Boolean NumPy array indicating if each value is missing.
         """
+        print("Is this happening?")
         return (self.data[:, 0] == np.nan) & (self.data[:, 1] == np.nan)
 
     def copy(self, deep=False):
@@ -81,7 +115,7 @@ class EnvelopeArray(ExtensionArray):
         return type(self)(self.data)
 
     def __array2__(self):
-        return self.data
+        return self.upper
 
     @property
     def nbytes(self):
@@ -106,7 +140,7 @@ class EnvelopeArray(ExtensionArray):
         """
         return cls(np.array(scalars))
 
-    def take_(self, indices, allow_fill=False, fill_value=None):
+    def take(self, indices, allow_fill=False, fill_value=None):
         """
         Take elements from an array.
         Parameters
@@ -163,21 +197,17 @@ class EnvelopeAccessor:
 
 
 bound_array = np.array([[2,3], [3,4], [4,5]])
+#bound_array = np.array([1,2])
+
 c = EnvelopeArray(bound_array)
+print("Im an array ", c)
 
-df = pd.DataFrame({'aha': c})
-
-
-
+#c = EnvelopeArray((2,3))
 
 
+print("make a dataframe")
+#df = pd.DataFrame({'aha': c})
+df = pd.Series(c)
 
-
-
-
-
-
-
-
-
+#print(df)
 
