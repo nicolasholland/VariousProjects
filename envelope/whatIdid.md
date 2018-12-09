@@ -5,7 +5,7 @@ A while ago we saw a talk about adding a fast string type into pandas using arro
 Besides the fact how awesome that is, we were fascinated by the idea of adding custom data types into pandas.
 So we decided to try and implement our own custom data type.
 
-In order to learn how to do that we looked at the package from the talk [fletcher](), as well as some other examples
+In order to learn how to do that we looked at the package from the talk [fletcher](https://github.com/xhochy/fletcher), as well as some other examples
 like [cyberpandas](), which implements a custom data type for ip addresses.
 And of course there is a documentation page by [pandas](https://pandas.pydata.org/pandas-docs/stable/extending.html) that also explains how to do that.
 
@@ -91,5 +91,5 @@ class EnvelopeAcessor:
 ```
 
 We Added an envelope accessor that makes it easy to retrieve the underlying lower and upper numpy arrays from our envelope arrays.
-You can find the code on our [github]()
+You can find the code on our [github](https://github.com/nicolasholland/VariousProjects/tree/master/envelope).
 
