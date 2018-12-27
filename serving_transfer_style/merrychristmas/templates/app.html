@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<head>
+	<title>Merry Christmas</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+<main>
+<div class=page>
+  <h1>Merry Christmas</h1>
+      <dl>
+	  <dt>Transfer Style (accepts only jpg images)</dt>
+          <form action = "http://localhost:5000/uploader" method = "POST"
+             enctype = "multipart/form-data">
+             <dd><input type = "file" name = "file1" />
+             <dd><input type = "file" name = "file2" />
+             <dd><input type = "submit"/>
+          </form>
+      </dl>
+</div>
+</main>
