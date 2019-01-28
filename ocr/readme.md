@@ -14,7 +14,7 @@ In order to digitalize text there are basically four steps that need to happen:
 * Postprocessing
 
 In our problem we have a PDF of handwritten text.
-And the only background we have so far in OCR is the famous [MNIST challange](http://yann.lecun.com/exdb/mnist/), which is about recognising handwritten digits. 
+And the only background we have so far in OCR is the famous [MNIST challange](http://yann.lecun.com/exdb/mnist/), which is about recognising handwritten digits.
 (It's basically the 'Hello World' of machine learning by now)
 
 We are aware of some existing software for OCR namely [OCRopus](https://developers.googleblog.com/2007/04/announcing-ocropus-open-source-ocr.html) (by Google) and [OCR4all](https://gitlab2.informatik.uni-wuerzburg.de/chr58bk/OCR4all_Web) (by University Wuerzburg).
@@ -39,11 +39,21 @@ Overall our PDF had 699 pages resulting in 699 png image files.
 And while we're at it a simple command for resizing/converting images is [convert](https://linux.die.net/man/1/convert)
 
 ```
-$ convert -resize 20% input.png output.png 
+$ convert -resize 20% input.png output.png
 ```
 
 The OCRopus input resolution should be about 300 dpi (dots-per-inch).
+We also found ocropus gives us a warning when the image is white text on black background instead of vice versa.
 
+```
+ERROR:  input.pngSKIPPEDimage may be inverted
+```
+
+This can also be fixed using convert:
+
+```
+$ convert -negate input.png output.png
+```
 
 Processing
 ----------
@@ -75,8 +85,45 @@ The OCRopus readme "warns" us that we may need to train our own recogintion mode
 They even provide tools for ground truth editing.
 However we hope that we can apply a pre trained model for now.
 
-As an example they show a model trained on [German Fraktur text](tmbdev.net/ocropy/fraktur.pyrnn.gz)
-Maybe that model works for us as well.
+When working on our own data we follow the described steps from ocropus test code.
+
+Binarization:
+
+```
+$ ocropus-nlbin input.png -o temp
+```
+
+Page Segmentation:
+
+```
+$ ocropus-gpageseg 'temp/????.bin.png'
+```
+
+Text line recognition:
+
+```
+$ ocropus-rpred -n 'temp/????/??????.bin.png'
+```
+
+OCRopus also offers a tool to combine the results of those three steps in a HTML file using the [hOCR format](https://en.wikipedia.org/wiki/HOCR).
+
+```
+$ ocropus-hocr 'temp/????.bin.png' -o temp.html
+```
+
+Results (So far)
+----------------
+
+The segmentation worked well, most lines were correctly identified even though it was handwritten
+and we had mixed characters. Here is an example of a line that was segmented:
+
+![](https://raw.githubusercontent.com/nicolasholland/VariousProjects/master/ocr/_images/aline.png)
+
+The recognition however did not work.
+We tried out both the default and [German Fraktur text](tmbdev.net/ocropy/fraktur.pyrnn.gz) models.
+Since neither of them were trained on the kind of text we were analysing, we didn't expect them to have good results.
+However we hoped that at least some of the german words could be recognised.
+Sadly most results were gibberish and the best cases looked more like this, e.g. "entschieden" becomes "enhAreaen".
 
 
 Postprocessing
