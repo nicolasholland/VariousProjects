@@ -125,6 +125,46 @@ Since neither of them were trained on the kind of text we were analysing, we did
 However we hoped that at least some of the german words could be recognised.
 Sadly most results were gibberish and the best cases looked more like this, e.g. "entschieden" becomes "enhAreaen".
 
+Training
+--------
+
+Since we could not find any pre trained model that yielded good results, we looked into training a custom model ourselves.
+We found a lot of information about the training process [here](http://www.danvk.org/2015/01/11/training-an-ocropus-ocr-model.htm).
+
+Since we were happy with our segmentation, we keept it and created a '.gt.txt' file for every segmented '.png' file.
+Our text contains both latin and non-latin characters.
+As we personally don't know about the non-latin characters we labeled them as '?'.
+A model that knows how to mark all non-latin characters is also of value to us.
+As a start we created ground truth data for one page and trained on that.
+
+```
+$ ocropus-rtrain -o mymodel temp/????/*.bin.png
+```
+
+One page gave us about 40 samples, which is not enough to train a proper model.
+The tutorial we saw started with about 400 training samples.
+However we were concerned with the non-latin characters and wanted to see if it was possible at all to train a model on them even if it ends up overfitted.
+
+This is how the output of the training process can look like.
+
+```
+24827 71.72 (1649, 48) temp/0001/010003.bin.png
+   TRU: u'(im heil. Buche), so spricht (der heil. Lehrer). (Ich habe dieses Wort nach dem Vorgange west'
+   ALN: u'(im heil. Buuche), so spricht (der heil. Lehrer). (Ich habe dieses Wort ach dem VVorgange west'
+   OUT: u'(inm hel. Buuche), s gricht (der heil. Lchrer. ch hbe dieses Wort ah. denmm ?rgnnge est'
+```
+
+For every iteration we can see the ground truth label (TRU) the output of the current state of the model (OUT) and a variant ot the model output which is used for the training (ALN).
+The tutorial we learned from suggested having about 30,000 iterations, which even tough we had much fewer training samples we still decided to do.
+
+Here's an example of what our model learned:
+
+![](https://raw.githubusercontent.com/nicolasholland/VariousProjects/master/ocr/_images/recline_sample.png)
+
+```
+die ondern sind ???? heil chriten, utras, sowie ??????? für oos, nd es würde-
+```
+
 
 Postprocessing
 --------------

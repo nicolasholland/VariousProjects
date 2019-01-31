@@ -2,3 +2,10 @@
 .swp
 .ipynb_checkpoints
 *.egg-info/
+
+
+# Some files I keep around but won't upload
+testthis.hdf
+3890_5819.gml
+output.gml
+
