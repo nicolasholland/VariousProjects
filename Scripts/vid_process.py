@@ -9,12 +9,13 @@ from matplotlib import pyplot as plt
 import imageio
 from io import BytesIO
 from scipy.ndimage.filters import gaussian_filter
+from scipy import ndimage
 from skimage import util
 import seaborn as sns
 
-name = "SOULCALIBUR™Ⅵ_20181019222942.mp4"
+name = "Assault Android Cactus_20190201170107.mp4"
 
-def plot_resize(func)
+def plot_resize(func):
     def wrapper(frame):
         img = func(frame)
         img = img[:, :, :3]
@@ -59,6 +60,8 @@ def rgb_hist(frame):
 
 gblur = lambda frame : gaussian_filter(frame, [5, 5, 5])
 
+laplacian = ndimage.laplace
+
 def process_video(in_name, out_name, function):
     """ docstring """
     video = imageio.get_reader(name)
@@ -66,10 +69,10 @@ def process_video(in_name, out_name, function):
 
     output = imageio.get_writer(out_name, fps=fps)
 
-    for frameid in range(0, vid.get_length()):
+    for frameid in range(0, video.get_length()):
     #for frameid in range(0, 300):
         print(frameid)
-        frame = vid.get_data(frameid)
+        frame = video.get_data(frameid)
 
         img = function(frame)
 
@@ -78,5 +81,6 @@ def process_video(in_name, out_name, function):
     output.close()
 
 #process_video(vid, out, util.invert)
-process_video(name, 'result.mp4', rgb_hist)
+process_video(name, 'result.mp4', laplacian)
 
+    
