@@ -165,6 +165,42 @@ Here's an example of what our model learned:
 die ondern sind ???? heil chriten, utras, sowie ??????? für oos, nd es würde-
 ```
 
+Other Problems
+--------------
+
+As we continued working on this we stumbled upon more problems.
+I try to keep a list here for future reference.
+
+Encoding:
+We got some gt.txt files from project partners which were written on windows or something.
+They're not utf8 which makes ocropus lose its shit.
+
+```
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xff in position 0: invalid start byte
+```
+
+A lot of things that should have helped didn't (maybe because Im fedora an most of linux advice
+on the internet appears to be for ubuntu etc.?)
+
+E.g.
+
+```
+$ file -i mytextfile.gt.txt
+```
+
+would just tell me the charset of a file is us-ascii which is not helpful in any way.
+There's a tool iconv that apparently can change encodings but wouldn't do anything for me.
+I mean, maybe Im using all these things wrong but if so, the [tutorials](https://www.tecmint.com/convert-files-to-utf-8-encoding-in-linux/) I've been reading weren't helpful either. 
+
+Filenames:
+
+Nothing's more annyoing than writing files and then noticing their name pattern is wrong.
+Here's how to fix that:
+
+```
+$ rename '.txt' '.gt.txt' *.txt
+```
+
 
 Postprocessing
 --------------
