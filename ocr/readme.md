@@ -192,6 +192,12 @@ would just tell me the charset of a file is us-ascii which is not helpful in any
 There's a tool iconv that apparently can change encodings but wouldn't do anything for me.
 I mean, maybe Im using all these things wrong but if so, the [tutorials](https://www.tecmint.com/convert-files-to-utf-8-encoding-in-linux/) I've been reading weren't helpful either. 
 
+One really good tool was dos2unix. It helped us fix file encodings a lot.
+
+```
+$ dos2unix *gt.txt
+```
+
 Filenames:
 
 Nothing's more annyoing than writing files and then noticing their name pattern is wrong.
@@ -199,6 +205,18 @@ Here's how to fix that:
 
 ```
 $ rename '.txt' '.gt.txt' *.txt
+```
+
+Ground truth labeling:
+
+Very useful tool ba ocropus is ocropus-gtedit.
+First you need a model that you apply on all images you want to label.
+The resulting .txt files can be gathered in a html file.
+That file can then manually be edited before extracting the labels as .gt.txt files.
+
+```
+$ ocropus-gtedit html datafolder/????/??????.bin.png -o label.html
+$ ocropus-gtedit extract label.html
 ```
 
 
