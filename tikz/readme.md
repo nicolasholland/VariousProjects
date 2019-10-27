@@ -20,3 +20,6 @@ You can draw e.g. a straight line or a rectangle in the editor and it will creat
 \draw  [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ] (355.5,490.11) -- (397.5,490.11) -- (397.5,511.11) -- (355.5,511.11) -- cycle ;
 ```
 
+We also created an example plot of a function with some descriptions:
+
+![](https://raw.githubusercontent.com/nicolasholland/VariousProjects/master/tikz/_images/example_plot.png)
