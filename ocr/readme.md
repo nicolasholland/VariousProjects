@@ -166,12 +166,14 @@ die ondern sind ???? heil chriten, utras, sowie ??????? für oos, nd es würde-
 ```
 
 Other Problems
---------------
+==============
 
 As we continued working on this we stumbled upon more problems.
 I try to keep a list here for future reference.
 
-Encoding:
+Encoding
+--------
+
 We got some gt.txt files from project partners which were written on windows or something.
 They're not utf8 which makes ocropus lose its shit.
 
@@ -198,7 +200,8 @@ One really good tool was dos2unix. It helped us fix file encodings a lot.
 $ dos2unix *gt.txt
 ```
 
-Filenames:
+Filenames
+---------
 
 Nothing's more annyoing than writing files and then noticing their name pattern is wrong.
 Here's how to fix that:
@@ -207,7 +210,8 @@ Here's how to fix that:
 $ rename '.txt' '.gt.txt' *.txt
 ```
 
-Ground truth labeling:
+Ground truth labeling
+---------------------
 
 Very useful tool ba ocropus is ocropus-gtedit.
 First you need a model that you apply on all images you want to label.
@@ -218,7 +222,6 @@ That file can then manually be edited before extracting the labels as .gt.txt fi
 $ ocropus-gtedit html datafolder/????/??????.bin.png -o label.html
 $ ocropus-gtedit extract label.html
 ```
-
 
 Postprocessing
 --------------
