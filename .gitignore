@@ -9,3 +9,7 @@ testthis.hdf
 3890_5819.gml
 output.gml
 
+# Data from kaggle, wont make it into my repo
+Neural ODE Talk/data/*
+
+
