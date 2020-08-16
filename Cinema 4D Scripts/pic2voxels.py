@@ -10,6 +10,8 @@ except ImportError:
 	pass
 	
 try:
+	import sys
+	from os.path import join, dirname
 	import imageio
 	import numpy as np
 	import pickle
@@ -20,11 +22,11 @@ try:
 	
 	MODE = "IMGAGE PROCESS Mode"
 except ImportError:
-	pass
+	print("Could not import required packages")
 
 
 @jit
-def recreate(labels, cc):
+def recreate(labels, cc, w, h, d):
     image = np.zeros((w, h, d))
     labels = labels.reshape((w,h))
     for x in range(w):
@@ -33,8 +35,14 @@ def recreate(labels, cc):
     return image.astype(np.uint8)
 
 
+def read_input():
+	if len(sys.argv) < 2:
+		print("Use with %s <image>" % (sys.argv[0]))
+		sys.exit()
+	return imageio.imread(sys.argv[1])
+
 def image_process_main():
-	raw = imageio.imread("John_Martin_Le_Pandemonium_Louvre.jfif")
+	raw = read_input()
 	
 	k = 20
 	divide = 80
@@ -55,13 +63,15 @@ def image_process_main():
 	image_array = np.reshape(img2, (w * h, d))
 
 	labels = kmeans.predict(image_array)
-	image = recreate(labels, kmeans.cluster_centers_)
+	labimg = labels.reshape((w,h))
+	image = recreate(labels, kmeans.cluster_centers_, w, h, d)
 
 	colorlist = kmeans.cluster_centers_.tolist()
-	with open("colorlist.bin", "w") as f:
+	folder = dirname(__file__)
+	with open(join(folder, "colorlist.py"), "w") as f:
 		f.write("cl="+str(colorlist))
 	lablist = labimg.tolist()
-	with open("labels.bin", "w") as f:
+	with open(join(folder, "labels.py"), "w") as f:
 		f.write("labels="+str(lablist))
 
 
@@ -133,15 +143,18 @@ def gen_heights(ll, scale=5):
                  
     return retval
 
-def main():
-    with open("colorlist.bin", "r") as f:
+def c4d_main():
+    with open("colorlist.py", "r") as f:
         exec(f.read())
     for vec in cl[::-1]:
         createmats(vec)
-    with open("labels.bin", "r") as f:
+    with open("labels.py", "r") as f:
         exec(f.read())
     pandemonium(labels)
 
 
 if __name__=='__main__':
-    main()
+	if MODE == "C4D Mode":
+		c4d_main()
+	elif MODE == "IMGAGE PROCESS Mode":
+		image_process_main()
