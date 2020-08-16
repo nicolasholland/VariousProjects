@@ -109,12 +109,6 @@ def sphere(posx, posz, height, radius, lab):
     textag.SetMaterial(doc.GetMaterials()[lab])
     object().InsertTag(textag)
 
-    c4d.CallCommand(1018791) # Fracture
-    
-    ActiveObject = object()
-    NextObject = ActiveObject.GetNext()
-    MakeObjectChild(ActiveObject, NextObject)
-    c4d.CallCommand(180000041)
 
 def pandemonium(ll):
     """ create spheres """
