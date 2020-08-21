@@ -1,0 +1,212 @@
+\documentclass{beamer}
+\usepackage{beamerthemeshadow}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{lscape}
+\usepackage{alltt}
+\usepackage{array}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{csquotes}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\setbeamertemplate{footline}[frame number]
+\graphicspath{ {images/} }
+
+\begin{document}
+
+% title page
+\title{ Neural Ordinary Differential Equations with Julia}
+\author{Nicolas Holland}
+%\author{Nicolas Holland 尼可老师​}
+
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Ordinary Differential Equations}
+
+Let $u(t)$ be function in time, $f$ function describing $u$'s derivative $\frac{\partial u}{\partial t}$, starting at time $t_0$:
+\ \\
+\begin{minipage}{.5\textwidth}
+\begin{align*}
+\frac{\partial u}{\partial t} &= f(u(t), t)\\
+u(t_0) &= u_0
+\end{align*}
+with $u_0$ being an initial value.
+\end{minipage}%
+
+\begin{minipage}{.5\textwidth}
+
+\end{minipage}
+}
+
+\frame{\frametitle{Ordinary Differential Equations}
+
+Simulate e.g. using the Euler method:
+\ \\
+\begin{minipage}{.5\textwidth}
+\begin{align*}
+\widetilde{u}_{t+1} = u_{t} + hf(u_{t}, t)
+\end{align*}
+with $h$ being a step size.
+\end{minipage}%
+
+\begin{minipage}{.5\textwidth}
+
+\end{minipage}
+}
+
+\frame{\frametitle{Weather Forecasting}
+Numerical Weather Prediction (NWP)
+\begin{minipage}{.5\textwidth}
+\ \\
+\begin{enumerate}
+\item PDE (space and time)
+\item Modelling of fluid dynamics
+\item Computational heavy
+\end{enumerate}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\begin{align*}
+\min_{D_{i\in I}} \Vert R - D_i \Vert\\
+\text{s.t.} \Vert \sum_i D_i\Vert = T
+\end{align*}
+  \end{minipage}
+
+}
+
+\frame{\frametitle{Neural Networks}
+Let $f$ be a neural network with $\theta$ being its parameters.
+\begin{minipage}{.5\textwidth}
+\ \\
+Forward pass:
+\begin{align*}
+\widetilde{u}_{t+1} = f(u_t, \theta)
+\end{align*}
+Backward pass:
+\begin{align*}
+\min_\theta \sum_t\Vert \widetilde{u}_{t} - u_{t} \Vert
+\end{align*}
+\end{minipage}%
+}
+
+\frame{\frametitle{Neural ODEs}
+Instead of learning
+
+$$ \widetilde{u}_{t+1} = f(u_t, \theta) $$
+
+we define an ODE 
+
+$$ \frac{\partial u}{\partial t} = f(u(t), t)$$
+
+and learn the change of $u$:
+
+$$ \frac{\partial u}{\partial t} = f(u_t, \theta)$$
+
+}
+
+\frame{\frametitle{Neural ODEs}
+Neural ODE:
+
+$$ \frac{\partial u}{\partial t} = f(u_t, \theta)$$
+
+Forward pass:
+
+$$ \widetilde{u}_{t+1} = u_t + h\ \underbrace{f(u_t, \theta)}_{\text{NNs forward pass}} $$
+
+}
+
+\frame{\frametitle{Neural ODEs}
+Neural ODE:
+
+$$ \frac{\partial u}{\partial t} = f(u_t, \theta)$$
+
+Forward pass:
+
+$$ \widetilde{u}_{t+1} = u_t + h\ \underbrace{f(u_t, \theta)}_{\text{NNs forward pass}} $$
+
+Backward pass:
+
+$$ \min_\theta \sum_t \Vert \widetilde{u}_{t+1} - u_{t+1} \Vert$$
+
+}
+
+\frame{\frametitle{Neural ODEs}
+Neural ODE:
+
+$$ \frac{\partial u}{\partial t} = f(u_t, \theta)$$
+
+Forward pass:
+
+$$ \widetilde{u}_{t+1} = u_t + h f(u_t, \theta) $$
+
+
+Backward pass:
+
+$$ \min_\theta \sum_t \Vert u_t + h f(u_t, \theta) - u_{t+1} \Vert$$
+
+}
+
+\frame{\frametitle{Neural ODEs}
+Neural ODE:
+
+$$ \frac{\partial u}{\partial t} = f(u_t, \theta)$$
+
+Forward pass:
+
+$$ \widetilde{u}_{t+1} = u_t + h f(u_t, \theta) $$
+
+Backward pass (two steps):
+
+$$ \min_\theta \sum_t \Vert \textcolor{blue}{u_t + hf(u_t, \theta)} + hf(\textcolor{blue}{u_t + hf(u_t, \theta)},\theta) - u_{t+2} \Vert$$
+
+}
+
+
+
+\frame{\frametitle{Julia Packages}
+Flux.jl
+}
+
+\frame{\frametitle{Julia Packages}
+DifferentialEquations.jl
+}
+
+
+\frame{\frametitle{Julia Packages}
+DiffEqFlux.jl
+}
+
+
+\frame{\frametitle{Dataset}
+Daily climate data in the city of Delhi from 2013 to 2017.
+Includes mean temperature, humidity, wind speed, mean air pressure.\\
+\ \\
+\begin{minipage}{.5\textwidth}
+\centering
+\includegraphics[scale=0.17]{delhi}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\centering
+\includegraphics[scale=0.17]{delhi}
+\end{minipage}%
+}
+
+\frame{\frametitle{Julia Code}
+
+}
+
+\frame{\frametitle{Results}
+
+}
+
+\frame{\frametitle{References}
+
+}
+
+\end{document}

@@ -12,4 +12,14 @@ output.gml
 # Data from kaggle, wont make it into my repo
 Neural ODE Talk/data/*
 
+# tex outputs
+Neural ODE Talk/tex/talk.aux
+Neural ODE Talk/tex/talk.log
+Neural ODE Talk/tex/talk.nav
+Neural ODE Talk/tex/talk.out
+Neural ODE Talk/tex/talk.pdf
+Neural ODE Talk/tex/talk.snm
+Neural ODE Talk/tex/talk.synctex.gz
+Neural ODE Talk/tex/talk.toc
+
 
