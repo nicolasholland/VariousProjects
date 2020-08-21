@@ -44,6 +44,7 @@ References
 
 * Neural ODE for weather forecast [blogpost](https://sebastiancallh.github.io/post/neural-ode-weather-forecast/)
 
+* Dataset from [kaggle](https://www.kaggle.com/sumanthvrao/daily-climate-time-series-data)
 
 Fixes
 -----
