@@ -39,25 +39,29 @@ u(t_0) &= u_0
 \end{align*}
 with $u_0$ being an initial value.
 \end{minipage}%
-
 \begin{minipage}{.5\textwidth}
-
+\includegraphics[scale=.3]{ode1}
 \end{minipage}
 }
 
 \frame{\frametitle{Ordinary Differential Equations}
 
-Simulate e.g. using the Euler method:
+Let $u(t)$ be function in time, $f$ function describing $u$'s derivative $\frac{\partial u}{\partial t}$, starting at time $t_0$:
 \ \\
 \begin{minipage}{.5\textwidth}
+\begin{align*}
+\frac{\partial u}{\partial t} &= f(u(t), t)\\
+u(t_0) &= u_0
+\end{align*}
+with $u_0$ being an initial value.\\ \ \\
+Simulate eg. using Euler method:
 \begin{align*}
 \widetilde{u}_{t+1} = u_{t} + hf(u_{t}, t)
 \end{align*}
 with $h$ being a step size.
 \end{minipage}%
-
 \begin{minipage}{.5\textwidth}
-
+\includegraphics[scale=.3]{ode2}
 \end{minipage}
 }
 
@@ -68,17 +72,34 @@ Numerical Weather Prediction (NWP)
 \begin{enumerate}
 \item PDE (space and time)
 \item Modelling of fluid dynamics
+\item Navier-Stokes equations
 \item Computational heavy
 \end{enumerate}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
-\begin{align*}
-\min_{D_{i\in I}} \Vert R - D_i \Vert\\
-\text{s.t.} \Vert \sum_i D_i\Vert = T
-\end{align*}
+
   \end{minipage}
 
 }
+
+\frame{\frametitle{Neural Networks}
+Observations
+
+$$u_t, u_{t+1}, u_{t+2}, \cdots$$
+
+}
+
+\frame{\frametitle{Neural Networks}
+Observations
+
+$$u_t, u_{t+1}, u_{t+2}, \cdots$$
+
+Can we learn this?
+
+$$ f(u_t, \theta) = u_{t+1} $$
+
+}
+
 
 \frame{\frametitle{Neural Networks}
 Let $f$ be a neural network with $\theta$ being its parameters.
@@ -170,16 +191,22 @@ $$ \min_\theta \sum_t \Vert \textcolor{blue}{u_t + hf(u_t, \theta)} + hf(\textco
 
 
 \frame{\frametitle{Julia Packages}
-Flux.jl
+\begin{center}
+\includegraphics[scale=.12]{package1}
+\end{center}
 }
 
 \frame{\frametitle{Julia Packages}
-DifferentialEquations.jl
+\begin{center}
+\includegraphics[scale=.12]{package2}
+\end{center}
 }
 
 
 \frame{\frametitle{Julia Packages}
-DiffEqFlux.jl
+\begin{center}
+\includegraphics[scale=.12]{package3}
+\end{center}
 }
 
 
@@ -189,7 +216,7 @@ Includes mean temperature, humidity, wind speed, mean air pressure.\\
 \ \\
 \begin{minipage}{.5\textwidth}
 \centering
-\includegraphics[scale=0.17]{delhi}
+\includegraphics[scale=0.25]{delhi_weather}
 \end{minipage}%
 \begin{minipage}{.5\textwidth}
 \centering
