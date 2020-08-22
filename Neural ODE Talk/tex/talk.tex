@@ -14,6 +14,7 @@
 \usepackage{csquotes}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{soul}
 
 \setbeamertemplate{footline}[frame number]
 \graphicspath{ {images/} }
@@ -27,6 +28,20 @@
 
 
 \frame{\titlepage} 
+
+\frame{\frametitle{Overview}
+\begin{enumerate}
+\item Theory / Math
+\begin{enumerate}
+\item ODEs
+\item Neural Networks
+\item Neural ODEs
+\end{enumerate}
+\item Julia Packages and Dataset
+\item Neural ODE Code and Results
+\end{enumerate}
+}
+
 
 \frame{\frametitle{Ordinary Differential Equations}
 
@@ -100,6 +115,26 @@ $$ f(u_t, \theta) = u_{t+1} $$
 
 }
 
+\frame{\frametitle{Neural Networks}
+Let $f$ be a neural network with $\theta$ being its parameters.
+\begin{center}
+\includegraphics[scale=.21]{network3}
+\end{center}
+}
+
+\frame{\frametitle{Neural Networks}
+Let $f$ be a neural network with $\theta$ being its parameters.
+\begin{minipage}{.5\textwidth}
+\ \\
+\textcolor{green}{Forward} pass:
+\begin{align*}
+\widetilde{u}_{t+1} = f(u_t, \theta)
+\end{align*}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\includegraphics[scale=.21]{network4}
+\end{minipage}%
+}
 
 \frame{\frametitle{Neural Networks}
 Let $f$ be a neural network with $\theta$ being its parameters.
@@ -109,10 +144,13 @@ Forward pass:
 \begin{align*}
 \widetilde{u}_{t+1} = f(u_t, \theta)
 \end{align*}
-Backward pass:
+\textcolor{red}{Backward} pass:
 \begin{align*}
 \min_\theta \sum_t\Vert \widetilde{u}_{t} - u_{t} \Vert
 \end{align*}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+\includegraphics[scale=.21]{network5}
 \end{minipage}%
 }
 
@@ -188,6 +226,18 @@ $$ \min_\theta \sum_t \Vert \textcolor{blue}{u_t + hf(u_t, \theta)} + hf(\textco
 
 }
 
+\frame{\frametitle{Overview}
+\begin{enumerate}
+\item \st{Theory / Math}
+\begin{enumerate}
+\item \st{ODEs}
+\item \st{Neural Networks}
+\item \st{Neural ODEs}
+\end{enumerate}
+\item Julia Packages and Dataset
+\item Neural ODE Code and Results
+\end{enumerate}
+}
 
 
 \frame{\frametitle{Julia Packages}
