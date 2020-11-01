@@ -13,7 +13,50 @@ from scipy import ndimage
 from skimage import util
 import seaborn as sns
 
-name = "Assault Android Cactus_20190201170107.mp4"
+name = "FINAL FANTASY VII REMAKE_20201101124152.mp4"
+
+
+class SlitSlider(object):
+
+    framebuffer = None
+
+    def __init__(self, dimy, slitsize=1):
+        self.slitsize = slitsize
+        self.dimy = dimy
+
+        self.nofslits = int(self.dimy / self.slitsize)
+        if self.dimy / self.slitsize != self.nofslits:
+            raise "number of rows must be divisible by slit size!"
+
+    def _init_framebuffer(self, frame):
+        self.framebuffer = [frame for _ in range(self.nofslits)]
+
+    def _update(self, frame):
+        self.framebuffer.pop(0)
+        self.framebuffer.append(frame)
+
+    def _traverse(self):
+        retval = self.framebuffer[-1].copy()
+
+        count = 1
+        for slit_id in range(len(self.framebuffer) - 1, 0, -1):
+            y_start = count * self.slitsize
+            y_end = y_start + self.slitsize
+            retval[y_start:y_end, :, :] = self.framebuffer[slit_id][y_start:y_end, :, :]
+
+            count += 1
+
+        return retval
+
+    def __call__(self, frame):
+        if self.framebuffer is None:
+            self._init_framebuffer(frame)
+
+        self._update(frame)
+
+        return self._traverse()
+
+
 
 def plot_resize(func):
     def wrapper(frame):
@@ -65,12 +108,13 @@ laplacian = ndimage.laplace
 def process_video(in_name, out_name, function):
     """ docstring """
     video = imageio.get_reader(name)
-    fps = video.get_meta_data()['fps']
+    #fps = video.get_meta_data()['fps']
+    fps = 30
 
     output = imageio.get_writer(out_name, fps=fps)
 
-    for frameid in range(0, video.get_length()):
-    #for frameid in range(0, 300):
+    #for frameid in range(0, video.get_length()):
+    for frameid in range(0, 3599):
         print(frameid)
         frame = video.get_data(frameid)
 
@@ -81,6 +125,7 @@ def process_video(in_name, out_name, function):
     output.close()
 
 #process_video(vid, out, util.invert)
-process_video(name, 'result.mp4', laplacian)
+if __name__ == '__main__':
+    slitslider = SlitSlider(720, 4)
+    process_video(name, 'result.mp4', slitslider.__call__)
 
-    
