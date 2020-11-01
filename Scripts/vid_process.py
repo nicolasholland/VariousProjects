@@ -16,7 +16,7 @@ import seaborn as sns
 name = "FINAL FANTASY VII REMAKE_20201101124152.mp4"
 
 
-class SlitSlider(object):
+class SlitScanner(object):
 
     framebuffer = None
 
@@ -126,6 +126,6 @@ def process_video(in_name, out_name, function):
 
 #process_video(vid, out, util.invert)
 if __name__ == '__main__':
-    slitslider = SlitSlider(720, 4)
-    process_video(name, 'result.mp4', slitslider.__call__)
+    slitscanner = SlitScanner(720, 4)
+    process_video(name, 'result.mp4', slitscanner.__call__)
 
