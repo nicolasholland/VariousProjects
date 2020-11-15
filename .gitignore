@@ -22,4 +22,7 @@ Neural ODE Talk/tex/talk.snm
 Neural ODE Talk/tex/talk.synctex.gz
 Neural ODE Talk/tex/talk.toc
 
+# object files
+*.o
+a.out
 
