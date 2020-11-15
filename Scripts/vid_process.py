@@ -12,11 +12,104 @@ from scipy.ndimage.filters import gaussian_filter
 from scipy import ndimage
 from skimage import util
 import seaborn as sns
+from numba import jit
 
-name = "FINAL FANTASY VII REMAKE_20201101124152.mp4"
+name = "0001-7469.mkv"
 
 
-class SlitScanner(object):
+class Wave(object):
+    field = None
+    counter = 0
+    t = 0
+
+    def __init__(self, w, h, function, update_rate=5, gray=True,
+            nonumba=False):
+        """
+        Parameters
+        ----------
+        w : int, width
+        h : int, height
+        function : function x,y,t -> v, should be numba compiled
+        update_rate : int, update wave attern every n-th frame.
+        gray : bool, grayscale or color output
+        nonumba : bool, must be true if function is not compiled.
+            will make things slow, defaut False
+
+        Examples
+        --------
+        >>> @jit
+        ... def func(x, y, t):
+        ...     return 15 * np.sin((x/50 + y/50) / (1/(t+1)))
+        >>> wave =  Wave(1080, 1920, func, update_rate=4)
+        >>> process_video(name, 'result.mp4', wave.__call__)
+
+        Notes
+        -----
+        Here's some functions, inspired by this:
+        https://tixy.land/
+
+        * 30 * np.cos(((x/50)-7.5)*((y/50)-7.5)*(t/12))
+        * 30 * (1-((t+x+np.sin(t+(x/50))/2)-(y/50)/30)%1)/3
+        * 10 * np.cos(((y/300)**(x/300))+t)**np.cos((x>y)+t)
+        * 10 * np.tan(2*t/(1+x*(y>=x)))+np.tan(2*t/(1+y*(x>=y)))
+        * 15 * np.cos(((x-800)^(y-800))/1000.*t)
+        * 10 * np.tan(t / (y+1) * x)
+        * 10 * np.sin(((x-500)**2 + (y-500)**2)/10000. + t)
+        """
+        self.gray = gray
+        self.w = w
+        self.h = h
+        self.field = np.zeros((w, h))
+        self.update_rate = update_rate
+        self.function = function
+        self.nonumba = nonumba
+
+    @staticmethod
+    @jit
+    def _static_update_field(w, h, field, t, f):
+        for x in range(w):
+            for y in range(h):
+                field[x, y] = f(x, y, t)
+        return field
+
+    def _update_field(self, t):
+        if self.nonumba:
+            for x in range(self.w):
+                for y in range(self.h):
+                    self.field[x, y] = self.function(x, y, t)
+        else:
+            self.field = self._static_update_field(
+                self.w, self.h, self.field, t, self.function)
+
+
+    def _apply_field(self, img):
+        if self.gray:
+            retval = cv2.cvtColor(img,
+                cv2.COLOR_RGB2GRAY).astype(np.float64)
+            retval += self.field
+            retval[retval < 0] = 0
+            retval[retval > 254] = 254
+            return np.stack([retval, retval, retval],
+                axis=2).astype(np.uint8)
+        else:
+            raise NotImplementedError
+
+    def __call__(self, img):
+        if self.counter % self.update_rate == 0:
+            self._update_field(self.t)
+            self.t += 1
+
+        self.counter += 1
+        return self._apply_field(img)
+
+
+class SlitSlider(object):
+    """
+    Examples
+    --------
+    >>> slitslider = SlitSlider(720, 4)
+    >>> process_video(name, 'result.mp4', slitslider.__call__)
+    """
 
     framebuffer = None
 
@@ -104,7 +197,7 @@ def rgb_hist(frame):
 gblur = lambda frame : gaussian_filter(frame, [5, 5, 5])
 
 laplacian = ndimage.laplace
-
+slitslider = SlitSlider(720, 4)
 def process_video(in_name, out_name, function):
     """ docstring """
     video = imageio.get_reader(name)
@@ -114,7 +207,7 @@ def process_video(in_name, out_name, function):
     output = imageio.get_writer(out_name, fps=fps)
 
     #for frameid in range(0, video.get_length()):
-    for frameid in range(0, 3599):
+    for frameid in range(0, 7468):
         print(frameid)
         frame = video.get_data(frameid)
 
@@ -126,6 +219,11 @@ def process_video(in_name, out_name, function):
 
 #process_video(vid, out, util.invert)
 if __name__ == '__main__':
-    slitscanner = SlitScanner(720, 4)
-    process_video(name, 'result.mp4', slitscanner.__call__)
+
+    @jit
+    def func(x, y, t):
+        return 15 * np.sin((x/50 + y/50) / (1/(t+1)))
+
+    wave =  Wave(1080, 1920, func, update_rate=30)
+    process_video(name, 'result.mp4', wave.__call__)
 
