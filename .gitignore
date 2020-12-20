@@ -26,3 +26,6 @@ Neural ODE Talk/tex/talk.toc
 *.o
 a.out
 
+#pws only on my machine
+computing_in_china/pws.txt
+
