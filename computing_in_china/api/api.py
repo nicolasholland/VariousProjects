@@ -37,8 +37,8 @@ def get_file(path):
     return send_from_directory(DOWNLOAD_DIRECTORY, path, as_attachment=True)
 
 
-@api.route("/files/<filename>", methods=["POST"])
-@auth.login_required
+#@api.route("/files/<filename>", methods=["POST"])
+#@auth.login_required
 def post_file(filename):
     """Upload a file."""
 
