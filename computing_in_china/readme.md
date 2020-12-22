@@ -65,3 +65,68 @@ Python Package Index
 Explain situation around pypi in china and the aliyun pypi mirror.
 
 
+Deploying a flask app on ECS
+----------------------------
+
+Here are in short the steps to deploy a flask app eg. a website or api on ECS.
+It is based on this [tutorial](https://www.alibabacloud.com/blog/setting-up-a-flask-application-on-alibaba-cloud-ecs-ubuntu-16-04_594502)
+
+We're using an Aliyun Linux instance instead of Ubuntu.
+
+
+* Start ECS instance, setup logon password and log in via ssh into the public ip,
+
+```
+$ ssh root@<Internet IP Address>
+```
+
+* Setting up an environment
+
+The tutorial we were using made use of pyenv, we however choose to go with miniconda.
+
+Then we installed Nginx
+
+```
+$ yum install epel-release
+$ yum install nginx
+```
+
+* Point Domain name at internet ip addess.
+
+We bought a domain fadianyuce.com and had it direct to the ip address of our server.
+
+* Setting up uwsgi
+
+Use uswgi_params from [here](https://github.com/nginx/nginx/blob/master/conf/uwsgi_params?spm=a2c65.11461447.0.0.4db8498eosHfx4)
+
+We created a wsgi.py script which imports and runs our actuall application.
+Then we created an .ini file descrbing how wsgi is to be used and implemented a systemd service that starts wsgi and creates a socket:
+
+```
+$ systemctl start app.service
+```
+
+* Setting up Nginx
+
+Here is where we ran in some trouble as the tutorial we were following did not work for us.
+
+First we were getting Nginx failures when trying to restart Nginx service, because its port was already in use.
+Killing it before restarting helped:
+
+```
+$ pkill -f nginx 
+$ systemctl restart nginx
+```
+
+Then we found that nginx did not have the correct permissions to read our wsgi socket, this fixed it:
+
+```
+$ chmod 666 /var/www/flaskapp/app.sock
+```
+
+Finally after modifying the nginx config to work as a proxy between the portand the wsgi socket we could restart nginx and the flask app was working.
+
+* HTTPS
+
+Next steps will include getting an SSL certificate and using https instead of http.
+

@@ -1,0 +1,12 @@
+[Unit]
+Description=uWSGI instance to serve app
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/var/www/flaskapp
+Environment="PATH=/root/miniconda3/bin"
+ExecStart=/root/miniconda3/bin/uwsgi --ini /var/www/flaskapp/app.ini
+
+[Install]
+WantedBy=multi-user.target
