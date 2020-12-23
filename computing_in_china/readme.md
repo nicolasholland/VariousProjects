@@ -77,7 +77,7 @@ We're using an Aliyun Linux instance instead of Ubuntu.
 * Start ECS instance, setup logon password and log in via ssh into the public ip,
 
 ```
-$ ssh root@<Internet IP Address>
+$ ssh <username>@<Internet IP Address>
 ```
 
 * Setting up an environment
@@ -128,5 +128,10 @@ Finally after modifying the nginx config to work as a proxy between the portand 
 
 * HTTPS
 
-Next steps will include getting an SSL certificate and using https instead of http.
+In order to serve our api on HTTPS we were following this [tutorial](https://medium.com/@nishankjaintdk/serving-a-website-on-a-registered-domain-with-https-using-nginx-and-lets-encrypt-8d482e01a682) in order to get an SSL certificate.
+They have something called certbot to help installing a certificate.
+
+```
+certbot-auto --nginx -d fadianyuce.com -d www.fadianyuce.com --debug
+```
 
