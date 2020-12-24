@@ -1,6 +1,6 @@
 """
 Code in large parts taken from:
-    https://docs.faculty.ai/user-guide/apis/flask_apis/flask_file_upload_download.html
+    https://docs.faculty.ai/user-guide/apps/flask_apis/flask_file_upload_download.html
 """
 import os
 
@@ -21,7 +21,7 @@ if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
 
 
-api = Flask(__name__)
+app = Flask(__name__)
 
 @auth.verify_password
 def verify_password(username, password):
@@ -30,14 +30,34 @@ def verify_password(username, password):
     return False
 
 
-@api.route("/files/<path:path>")
+@app.route('/dist/<path:path>')
+def send_dist(path):
+    return send_from_directory("page/dist", path)
+ 
+@app.route('/assets/<path:path>')
+def send_assets(path):
+    return send_from_directory("page/assets", path)
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory("page/js", path)
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory("page/css", path)
+
+@app.route('/')
+def main():
+    return send_from_directory("page", "index.html")
+
+@app.route("/files/<path:path>")
 @auth.login_required
 def get_file(path):
     """Download a file."""
     return send_from_directory(DOWNLOAD_DIRECTORY, path, as_attachment=True)
 
 
-#@api.route("/files/<filename>", methods=["POST"])
+#@app.route("/files/<filename>", methods=["POST"])
 #@auth.login_required
 def post_file(filename):
     """Upload a file."""
@@ -54,4 +74,4 @@ def post_file(filename):
 
 
 if __name__ == "__main__":
-    api.run(debug=True, port=8000)
+    app.run(debug=True, port=8000)

@@ -135,3 +135,10 @@ They have something called certbot to help installing a certificate.
 certbot-auto --nginx -d fadianyuce.com -d www.fadianyuce.com --debug
 ```
 
+* Landing Page
+
+In order for the application to have something of a landing page we took a bootstrap
+template from [here](https://getbootstrap.com/docs/3.4/getting-started/) and use it as our main page.
+
+
+
