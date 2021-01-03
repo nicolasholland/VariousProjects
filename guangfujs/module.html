@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Module</title>
+
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="css/table.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="jumbotron">
+            <h1>光伏</h1>
+        </div>
+
+        <div style="text-align: center;">
+            <p><a class="btn btn-lg btn-success" onclick="draw()" role="button">Draw</a></p>
+
+            <p>
+            <table style="width:50%;">
+                <tr>
+                  <th>Variable</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>Tilt angle</td>
+                  <td id="t_tiltangle" contenteditable='true'>15</td>
+                </tr>
+                <tr>
+                  <td>Table height</td>
+                  <td id="t_tableheight" contenteditable='true'>70</td>
+                </tr>
+                <tr>
+                    <td>Modules per table</td>
+                    <td id="t_modpertab" contenteditable='true'>2</td>
+                  </tr>
+                <tr>
+                    <td>Module length</td>
+                    <td id="t_modlen" contenteditable='true'>50</td>
+                  </tr>
+              </table>
+            </p>
+
+            <canvas id="myCanvas" width="400" height="200"
+            style="border:1px solid #c3c3c3;">
+            Your browser does not support the canvas element.
+            </canvas>
+        </div>
+
+        <script src="js/module.js"></script>
+    </div>
+
+    </div>
+</body>
+</html>

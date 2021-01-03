@@ -29,3 +29,9 @@ a.out
 #pws only on my machine
 computing_in_china/pws.txt
 
+# Dont keep track of side projects added in the api folder
+computing_in_china/api/page/css/table.css
+computing_in_china/api/page/js/module.js
+computing_in_china/api/page/module.html
+computing_in_china/tmp.txt
+
