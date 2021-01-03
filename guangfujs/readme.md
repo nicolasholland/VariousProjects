@@ -2,7 +2,7 @@
 ======
 
 小的软件为玩canvas object。
-做一个光伏module用一些parameters在editable table，画module用canvas object。
+用一些parameters在editable table做一个光伏module，用canvas object画module。
 
 必须有 bootstrap jumbotron-narrow template.
 
