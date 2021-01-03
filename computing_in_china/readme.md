@@ -143,7 +143,7 @@ template from [here](https://getbootstrap.com/docs/3.4/getting-started/) and use
 * Security
 
 The internet is a dangerous place and our server began to see malicious login attempts soon after it went online.
-We use fail2ban in order to block ip addresses from repeated login attempts.
+We use fail2ban and firewalld in order to block ip addresses from repeated login attempts.
 
 Check fail2ban and sshd logs:
 
@@ -152,8 +152,30 @@ $ tail /var/log/fail2ban.log
 $ tail /var/log/secure
 ```
 
-Check banned ip addresses:
+Check banned ip addresses (assuming the jails name is ssh):
 
 ```
-$ zgrep 'Ban' /var/log/fail2ban.log*
+$ fail2ban-client status ssh
 ```
+
+In order to make sure that firewalld allows the desired traffic it needs to be configured, ie there should be at least one active zone:
+
+```
+$ firewall-cmd --get-active-zones
+public
+  interfaces: eth0
+```
+
+Otherwise the zone needs to be activated by connecting it with an interface:
+
+```
+$ firewall-cmd --permanent --zone=public --change-interface=eth0
+```
+
+That zone should then be configured to allow eg https traffic.
+It is also the zone that fail2ban adds rules to, dissallowing future login attempts from banned ip addresses.
+
+Aliyun also offers vulnerability inspections.
+Additional security measures are taken like disabling root login in the sshd config.
+
+

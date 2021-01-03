@@ -1,0 +1,11 @@
+#file should be in /etc/fail2ban/
+##Block the failed login attempts on the SSH server.
+[ssh]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/secure
+maxretry = 1
+bantime = 600
+ignoreip = <my ip>
+iptables[name=SSH, port=ssh, protocol=tcp]
