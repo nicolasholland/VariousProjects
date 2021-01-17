@@ -44,6 +44,7 @@ function get_total_mod_length() {
 }
 
 function draw() {
+    sketch();
     var alpha = document.getElementById("t_tiltangle").innerText;
     var th = document.getElementById("t_tableheight").innerText;
     var l = get_total_mod_length();
@@ -61,4 +62,22 @@ table_base(70);
 module(200, 70, 15, 100);
 ctx.closePath();
 
+function sketch() {
+  var sketch = document.getElementById('myCanvas');
+  var table = document.getElementById('mytable');
+  var model = document.getElementById('mymodel');
 
+  model.style.display = "none";
+  sketch.style.display = "initial";
+  table.style.display = "table";
+}
+
+function render(){
+  var sketch = document.getElementById('myCanvas');
+  var table = document.getElementById('mytable');
+  var model = document.getElementById('mymodel');
+
+  sketch.style.display = "none";
+  table.style.display = "none";
+  model.style.display = "block";
+}

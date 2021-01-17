@@ -11,6 +11,18 @@
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/jumbotron-narrow.css" rel="stylesheet">
     <link href="css/table.css" rel="stylesheet">
+
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+    <style>
+      model-viewer {
+      width: 500px;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    </style>
 </head>
 
 <body>
@@ -22,10 +34,13 @@
         </div>
 
         <div style="text-align: center;">
-            <p><a class="btn btn-lg btn-success" onclick="draw()" role="button">Draw</a></p>
+            <p>
+              <a class="btn btn-lg btn-success" onclick="draw()" role="button">画</a>
+              <a class="btn btn-lg btn-success" onclick="render()" role="button">3D</a>
+            </p>
 
             <p>
-            <table style="width:50%;">
+            <table id="mytable" style="width:50%;">
                 <tr>
                   <th>Variable</th>
                   <th>Value</th>
@@ -53,6 +68,12 @@
             style="border:1px solid #c3c3c3;">
             Your browser does not support the canvas element.
             </canvas>
+
+            <p>
+              <model-viewer id="mymodel" src="guangfu.glb" alt="pv module" auto-rotate camera-controls
+                shadow-intensity="5" shadow-softness="0.5" style="display: none;">
+              </model-viewer>
+            </p>
         </div>
 
         <script src="js/module.js"></script>
