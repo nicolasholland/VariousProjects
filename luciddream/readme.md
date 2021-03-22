@@ -93,5 +93,11 @@ NHWC (number, height, width, channel)是图片的dims。
 有[colab](https://colab.research.google.com/drive/1Y5i50xSFIuN3V4Md8TB30_GOAtts7RQD?usp=sharing#scrollTo=Ldjd9LiHxZNG), 用得很棒!
 
 
+用JS和Canvas产生音乐视频
+------------------------
+
+在[reddit](https://www.reddit.com/r/proceduralgeneration/comments/m8thb9/my_handmade_html_canvas_javascript_sound/)我们也发现了JS代码用Canvas产生音乐视频。
+因为一些月前我们也有Canvas项目，这个项目也产生视频，所以我们觉得那个软件也很有意思。
+如果我们有够的时间，可能也试那个软件。
 
 
