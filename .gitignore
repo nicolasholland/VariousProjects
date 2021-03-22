@@ -37,4 +37,7 @@ computing_in_china/tmp.txt
 computing_in_china/api/page/guangfu.glb
 computing_in_china/data.csv
 
+# mp3 files do not go to github
+luciddream/data/*
+
 
