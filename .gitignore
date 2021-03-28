@@ -15,6 +15,7 @@ Neural ODE Talk/data/*
 notebooks/data/*
 
 investment/data/*
+investment/pws.txt
 
 # tex outputs
 Neural ODE Talk/tex/talk.aux
