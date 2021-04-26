@@ -14,8 +14,6 @@ with open("config.yml", "r") as r:
 
 UPLOAD_DIRECTORY = CFG["UPLOAD_DIRECTORY"]
 DOWNLOAD_DIRECTORY = CFG["DOWNLOAD_DIRECTORY"]
-USER = CFG["USER"]
-KEY = CFG["KEY"]
 
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
@@ -25,8 +23,10 @@ app = Flask(__name__)
 
 @auth.verify_password
 def verify_password(username, password):
-    if username == USER and password == KEY:
-        return True
+    if username in list(CFG["USERS"].keys()):
+        if password == CFG["USERS"][username]:
+            return True
+
     return False
 
 
