@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+  .interactive-image {
+    margin: auto;
+    width: 800px;
+    height: 600px;
+    background-size: contain;
+    background-image: url('https://raw.githubusercontent.com/nicolasholland/VariousProjects/master/docs/img/sandscape.jpg');
+  }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="my-interactive-image"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+var items = [
+  /* River */
+  {
+    type: "text",
+    title: "河",
+    description: "这河有水流去左边，右边，都最后流去湖。",
+    position: {
+      left: 650,
+      top: 70
+    }
+  },
+  /* Bridge */
+  {
+    type: "text",
+    title: "桥",
+    description: "桥下有河，桥也是大湖的门。",
+    position: {
+      left: 500,
+      top: 50
+    }
+  },
+  /* Lake with boat */
+  {
+    type: "text",
+    title: "湖和船",
+    description: "大湖有水比河更多，也有船。那船有的时在危险的地方。",
+    position: {
+      left: 380,
+      top: 220
+    }
+  },
+  /* Island with house */
+  {
+    type: "text",
+    title: "大岛",
+    description: "大岛有房子。这是第一个岛。",
+    position: {
+      left: 200,
+      top: 300
+    }
+  },
+  /* Second Island */
+  {
+    type: "text",
+    title: "小岛",
+    description: "小岛是第二个岛。因为太小，所以不能有房子，只有路。",
+    position: {
+      left: 600,
+      top: 400
+    }
+  },
+];
+
+var options = {
+  allowHtml: true
+};
+
+$(document).ready(function() {
+  $("#my-interactive-image").interactiveImage(items, options);
+});
+</script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
+</body>
+</html>
+

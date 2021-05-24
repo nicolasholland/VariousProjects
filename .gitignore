@@ -17,6 +17,9 @@ notebooks/data/*
 investment/data/*
 investment/pws.txt
 
+# no simple flask files
+docs/host.py
+
 # tex outputs
 Neural ODE Talk/tex/talk.aux
 Neural ODE Talk/tex/talk.log
