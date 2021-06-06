@@ -1,11 +1,7 @@
 """
-Monitor 监控
-------------
-
 Reads in csv files configured in a monitor.yml and creates a monitor.html
 showing their basetimes and indicating if the csv files age is appropriate
 for a real time service.
-Read monitor.yml for instructions as to how to configure it.
 """
 from flask import Flask, send_from_directory, render_template
 import pandas as pd
