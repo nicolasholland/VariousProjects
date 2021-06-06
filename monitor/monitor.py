@@ -45,14 +45,15 @@ def _timestamps():
 
     retval = []
     for plant in cfg["plants"]:
+        _tmp = {"id": plant,
+                 "source": {}}
         for source in cfg["plants"][plant]:
             ts = _get_ts(cfg["plants"][plant][source])
-            _tmp = {
-                "id": plant,
-                "source": source,
+
+            _tmp["source"][source] = {
                 "basetime": ts.strftime("%Y-%m-%dT%H:%M:%S"),
                 "light": _check(ts, cfg["limits"][source])}
-            retval.append(_tmp)
+        retval.append(_tmp)
 
     return retval
 
@@ -66,7 +67,7 @@ def green():
 
 @app.route('/monitor')
 def monitor():
-    return render_template("monitor.html", timestamps=_timestamps())
+    return render_template("monitor.html", ts=_timestamps())
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)

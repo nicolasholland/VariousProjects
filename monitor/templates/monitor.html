@@ -37,15 +37,18 @@
 
     <div style="text-align: center;">
       <p>
-        <table id="mytable" style="width:50%;">
-            {% for n in timestamps %}
+        <table id="mytable" style="width:100%;">
+            {% for n in ts %}
             <tr class="spaceUnder">
               <td>{{n["id"]}}</td>
-              <td>{{n["source"]}}</td>
-              <td>{{n["basetime"]}}</td>
-              <td><img src="{{n["light"]}}.png" width="20"></td>
+	      {% for s in n["source"] %}
+              <td>{{s}}</td>
+              <td>{{n["source"][s]["basetime"]}}</td>
+              <td><img src="{{n["source"][s]["light"]}}.png" width="20"></td>
+              {% endfor %}
             </tr>
             {% endfor %}
+
         </table>
       </p>
 
