@@ -1,28 +1,45 @@
 from flask import Flask, send_from_directory, render_template
 import pandas as pd
+import yaml
+
+def _load_cfg():
+    with open("monitor.yml", "r") as _yml:
+        cfg = yaml.load(_yml, Loader=yaml.FullLoader)
+    return cfg
 
 app = Flask(__name__)
 
-def _check(ts):
+def _check(ts, limit):
+    """ check how old ts is compared to utcnow """
     now = pd.Timestamp.utcnow()
     now = now.tz_localize(None)
-    if now - ts > pd.Timedelta("1d"): 
+
+    if now - ts > pd.Timedelta(limit): 
         return "red"
     else:
         return "green"
 
-def _timestamps():
-    ts = pd.Timestamp("2021-06-04T12:00:00")
-    ts2 = pd.Timestamp("2021-06-06T12:00:00")
+def _get_ts(path):
+    """ read csv file at path and return its basetime """
+    ts = pd.Timestamp(pd.read_csv(path, ",", header=None).iloc[0][0])
+    return ts
 
-    return [{"id": "p1",
-             "source": "天气",
-             "basetime": ts.strftime("%Y-%m-%dT%H:%M:%S"),
-             "light": _check(ts)},
-             {"id": "p1",
-             "source": "卫星",
-             "basetime": ts.strftime("%Y-%m-%dT%H:%M:%S"),
-             "light": _check(ts2)}]
+def _timestamps():
+    """ create list of timestamps used for jinja """
+    cfg = _load_cfg()
+
+    retval = []
+    for plant in cfg["plants"]:
+        for source in cfg["plants"][plant]:
+            ts = _get_ts(cfg["plants"][plant][source])
+            _tmp = {
+                "id": plant,
+                "source": source,
+                "basetime": ts.strftime("%Y-%m-%dT%H:%M:%S"),
+                "light": _check(ts, cfg["limits"][source])}
+            retval.append(_tmp)
+
+    return retval
 
 @app.route('/red.png')
 def red():

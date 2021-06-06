@@ -1,0 +1,11 @@
+---
+plants:
+  p1:
+    天气: tianqi.csv
+    卫星: weixing.csv
+  p2:
+    天气: weixing.csv
+    卫星: weixing.csv
+limits:
+  天气: 6h
+  卫星: 1h
