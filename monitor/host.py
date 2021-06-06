@@ -1,3 +1,12 @@
+"""
+Monitor 监控
+------------
+
+Reads in csv files configured in a monitor.yml and creates a monitor.html
+showing their basetimes and indicating if the csv files age is appropriate
+for a real time service.
+Read monitor.yml for instructions as to how to configure it.
+"""
 from flask import Flask, send_from_directory, render_template
 import pandas as pd
 import yaml
@@ -10,7 +19,17 @@ def _load_cfg():
 app = Flask(__name__)
 
 def _check(ts, limit):
-    """ check how old ts is compared to utcnow """
+    """ check how old ts is compared to utcnow
+    
+    Parameters
+    ----------
+    ts : pd.Timestamp
+    limit :  string, will be turned into pd.Timedelta
+
+    Returns
+    -------
+    retval : string, either red or green
+    """
     now = pd.Timestamp.utcnow()
     now = now.tz_localize(None)
 
