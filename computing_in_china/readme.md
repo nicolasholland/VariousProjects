@@ -87,7 +87,6 @@ The tutorial we were using made use of pyenv, we however choose to go with minic
 Then we installed Nginx
 
 ```
-$ yum install epel-release
 $ yum install nginx
 ```
 
@@ -103,6 +102,7 @@ We created a wsgi.py script which imports and runs our actuall application.
 Then we created an .ini file descrbing how wsgi is to be used and implemented a systemd service that starts wsgi and creates a socket:
 
 ```
+$ cp app.service  /etc/systemd/system/
 $ systemctl start app.service
 ```
 
@@ -114,6 +114,7 @@ First we were getting Nginx failures when trying to restart Nginx service, becau
 Killing it before restarting helped:
 
 ```
+$ cp nginx.conf /etc/nginx/
 $ pkill -f nginx 
 $ systemctl restart nginx
 ```
