@@ -1,0 +1,73 @@
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'Day');
+      data.addColumn('number', 'Clearsky');
+
+
+    var df = [
+ [new Date(2021, 10, 10, 0), 0.0],
+ [new Date(2021, 10, 10, 1), 0.0],
+ [new Date(2021, 10, 10, 2), 0.0],
+ [new Date(2021, 10, 10, 3), 0.0],
+ [new Date(2021, 10, 10, 4), 0.0],
+ [new Date(2021, 10, 10, 5), 0.0],
+ [new Date(2021, 10, 10, 6), 3.2],
+ [new Date(2021, 10, 10, 7), 109.8],
+ [new Date(2021, 10, 10, 8), 256.2],
+ [new Date(2021, 10, 10, 9), 381.2],
+ [new Date(2021, 10, 10, 10), 467.1],
+ [new Date(2021, 10, 10, 11), 505.4],
+ [new Date(2021, 10, 10, 12), 492.6],
+ [new Date(2021, 10, 10, 13), 429.8],
+ [new Date(2021, 10, 10, 14), 322.9],
+ [new Date(2021, 10, 10, 15), 183.8],
+ [new Date(2021, 10, 10, 16), 42.7],
+ [new Date(2021, 10, 10, 17), 0.0],
+ [new Date(2021, 10, 10, 18), 0.0],
+ [new Date(2021, 10, 10, 19), 0.0],
+ [new Date(2021, 10, 10, 20), 0.0],
+ [new Date(2021, 10, 10, 21), 0.0],
+ [new Date(2021, 10, 10, 22), 0.0],
+ [new Date(2021, 10, 10, 23), 0.0]
+];
+
+    function transpose(d) {
+
+        return d;
+    };
+
+    data.addRows(transpose(df));
+
+
+    var options = {
+        chart: {
+          title: 'Irradiance',
+          subtitle: 'Modelled'
+        },
+        width: 900,
+        height: 500,
+        axes: {
+          x: {
+            0: {side: 'top'}
+          }
+        }
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+  </script>
+</head>
+<body>
+  <div id="line_top_x"></div>
+</body>
+</html>
