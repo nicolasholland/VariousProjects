@@ -1,5 +1,41 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <script type="text/javascript">
+
+    function dirint(df, solar_zenith, pressure=101325.,
+      min_cos_zenith=0.065, max_zenith=87) {
+    /*disc_out = disc(ghi, solar_zenith, times, pressure=pressure,
+        min_cos_zenith=min_cos_zenith, max_zenith=max_zenith)
+      airmass = disc_out['airmass']
+      kt = disc_out['kt']
+
+      kt_prime = clearness_index_zenith_independent(
+        kt, airmass, max_clearness_index=1)
+      delta_kt_prime = _delta_kt_prime_dirint(
+        kt_prime, use_delta_kt_prime, times)
+      w = _temp_dew_dirint(temp_dew, times)
+
+      dirint_coeffs = _dirint_coeffs(
+        times, kt_prime, solar_zenith, w, delta_kt_prime)
+
+      dni = disc_out['dni'] * dirint_coeffs*/
+    }
+
+
+    function transpose(d) {
+      var retval = [];
+      for (var i = 0; i < d.length; i++) {
+        var ele = d[i];
+        ele.push(ele[1] * .4); // placeholder
+
+        retval.push(ele);
+      }
+        return retval;
+    };
+  </script>
+
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['line']});
@@ -7,42 +43,40 @@
 
     function drawChart() {
 
-      var data = new google.visualization.DataTable();
-      data.addColumn('date', 'Day');
-      data.addColumn('number', 'Clearsky');
+    var data = new google.visualization.DataTable();
+    data.addColumn('date', 'Day');
+    data.addColumn('number', 'Clearsky');
+    data.addColumn('number', '.4 Clearsky');
 
 
     var df = [
- [new Date(2021, 10, 10, 0), 0.0],
- [new Date(2021, 10, 10, 1), 0.0],
- [new Date(2021, 10, 10, 2), 0.0],
- [new Date(2021, 10, 10, 3), 0.0],
- [new Date(2021, 10, 10, 4), 0.0],
- [new Date(2021, 10, 10, 5), 0.0],
- [new Date(2021, 10, 10, 6), 3.2],
- [new Date(2021, 10, 10, 7), 109.8],
- [new Date(2021, 10, 10, 8), 256.2],
- [new Date(2021, 10, 10, 9), 381.2],
- [new Date(2021, 10, 10, 10), 467.1],
- [new Date(2021, 10, 10, 11), 505.4],
- [new Date(2021, 10, 10, 12), 492.6],
- [new Date(2021, 10, 10, 13), 429.8],
- [new Date(2021, 10, 10, 14), 322.9],
- [new Date(2021, 10, 10, 15), 183.8],
- [new Date(2021, 10, 10, 16), 42.7],
- [new Date(2021, 10, 10, 17), 0.0],
- [new Date(2021, 10, 10, 18), 0.0],
- [new Date(2021, 10, 10, 19), 0.0],
- [new Date(2021, 10, 10, 20), 0.0],
- [new Date(2021, 10, 10, 21), 0.0],
- [new Date(2021, 10, 10, 22), 0.0],
- [new Date(2021, 10, 10, 23), 0.0]
-];
+      [new Date(2021, 10, 10, 0), 0.0],
+      [new Date(2021, 10, 10, 1), 0.0],
+      [new Date(2021, 10, 10, 2), 0.0],
+      [new Date(2021, 10, 10, 3), 0.0],
+      [new Date(2021, 10, 10, 4), 0.0],
+      [new Date(2021, 10, 10, 5), 0.0],
+      [new Date(2021, 10, 10, 6), 3.2],
+      [new Date(2021, 10, 10, 7), 109.8],
+      [new Date(2021, 10, 10, 8), 256.2],
+      [new Date(2021, 10, 10, 9), 381.2],
+      [new Date(2021, 10, 10, 10), 467.1],
+      [new Date(2021, 10, 10, 11), 505.4],
+      [new Date(2021, 10, 10, 12), 492.6],
+      [new Date(2021, 10, 10, 13), 429.8],
+      [new Date(2021, 10, 10, 14), 322.9],
+      [new Date(2021, 10, 10, 15), 183.8],
+      [new Date(2021, 10, 10, 16), 42.7],
+      [new Date(2021, 10, 10, 17), 0.0],
+      [new Date(2021, 10, 10, 18), 0.0],
+      [new Date(2021, 10, 10, 19), 0.0],
+      [new Date(2021, 10, 10, 20), 0.0],
+      [new Date(2021, 10, 10, 21), 0.0],
+      [new Date(2021, 10, 10, 22), 0.0],
+      [new Date(2021, 10, 10, 23), 0.0]
+    ];
 
-    function transpose(d) {
 
-        return d;
-    };
 
     data.addRows(transpose(df));
 
