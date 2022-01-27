@@ -30,6 +30,15 @@ Neural ODE Talk/tex/talk.snm
 Neural ODE Talk/tex/talk.synctex.gz
 Neural ODE Talk/tex/talk.toc
 
+
+# site monitor files
+sitemonitor/chromedriver
+sitemonitor/chromedriver_linux64.zip
+sitemonitor/config.yml
+sitemonitor/google-chrome-stable_97.0.4692.99-2_amd64.deb
+sitemonitor/google-chrome-stable_current_x86_64.rpm
+sitemonitor/wtf.png
+
 # object files
 *.o
 a.out
