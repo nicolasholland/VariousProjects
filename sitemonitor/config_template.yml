@@ -1,0 +1,17 @@
+---
+path_to_driver: ./chromedriver
+urls:
+    name1:
+        - "https:"
+        - "https:"
+    name2:
+        - "https:"
+        - "https:"
+elements:
+    name1: "btn-cart__text"
+    name2: ""
+
+marker:
+    name1: "Add to Cart"
+    name2: "sold"
+
