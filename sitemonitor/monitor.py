@@ -1,6 +1,10 @@
 from os.path import join, dirname
 from selenium import webdriver
 import yaml
+import time
+
+import warnings
+warnings.filterwarnings("ignore")
 
 with open(join(dirname(__file__), "config.yml")) as yml:
     CFG = yaml.safe_load(yml)
@@ -33,9 +37,26 @@ class SiteCheck(object):
         self.driver.get(self.url)
 
     def check_available(self):
-        self.browse()
         ele = self.driver.find_elements_by_class_name(
             CFG["elements"][self.site])
         text = [_.text for _ in ele]
         return CFG["marker"][self.site] in text
 
+
+def load_all():
+    retval = {}
+    for site in CFG["urls"]:
+        for url in CFG["urls"][site]:
+            sc = SiteCheck(site, url)
+            sc.browse()
+
+            retval[url] = sc
+
+    return retval
+
+
+if __name__ == '__main__':
+    SC = load_all()
+    time.sleep(5)
+    for key in SC.keys():
+        print(key, ";", int(SC[key].check_available()))
