@@ -1,6 +1,8 @@
 Site Monitor
 ============
 
+Set up
+------
 
 * Get Chrome
 
@@ -33,4 +35,39 @@ $ wget https://chromedriver.storage.googleapis.com/97.0.4692.71/chromedriver_lin
 $ unzip chromedriver_linux64.zip
 ```
 
+Run monitor
+-----------
+
+
+Check all sites and write results into status.csv:
+
+```
+$ python monitor.py > status.csv
+```
+
+This can eg be done via a cronjob.
+
+
+Publish results
+---------------
+
+This is done via a flask app:
+
+
+```
+$ python publish.py
+```
+
+Note that publish.py will look for the status.csv in the same folder.
+If it is to be added to another flask app, simply make it importable there:
+
+
+```
+from flask import Flask
+import publish
+
+app = Flask(__name__)
+
+app.add_url_rule('/sitemonitor', view_func=publish.check)
+```
 
