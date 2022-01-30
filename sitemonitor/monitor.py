@@ -60,3 +60,4 @@ if __name__ == '__main__':
     time.sleep(5)
     for key in SC.keys():
         print(key, ";", int(SC[key].check_available()))
+        SC[key].driver.quit()
