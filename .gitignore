@@ -38,6 +38,7 @@ sitemonitor/config.yml
 sitemonitor/google-chrome-stable_97.0.4692.99-2_amd64.deb
 sitemonitor/google-chrome-stable_current_x86_64.rpm
 sitemonitor/wtf.png
+sitemonitor/status.csv
 
 # object files
 *.o

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Monitor</title>
+
+
+  <link href="https://fadianyuce.com/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!--<link href="dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="https://fadianyuce.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <!--<link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
+
+  <!-- Custom styles for this template -->
+  <link href="https://fadianyuce.com/css/jumbotron-narrow.css" rel="stylesheet">
+  <!--<link href="css/jumbotron-narrow.css" rel="stylesheet">-->
+
+  <style>
+    tr.spaceUnder>td {
+      padding-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+
+    <div class="jumbotron">
+      <h1>Check</h1>
+    </div>
+
+    <div style="text-align: center;">
+      <p>
+        <table id="mytable" style="width:100%;">
+            {% for n in table %}
+            <tr class="spaceUnder">
+              <td><a href="{{n["url"]}}">link</a></td>
+              <td><img src="{{n["light"]}}.png" width="20"></td>
+            </tr>
+            {% endfor %}
+        </table>
+      </p>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script type="text/javascript">
+
+  </script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
+</body>
+</html>
+
