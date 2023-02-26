@@ -14267,7 +14267,7 @@ $$ P\left( \frac{G_{meas,t_0}}{G_{cs, t_0}} \cdot \{ G_{cs, t}\}_{t\in T} \right
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Option-1">Option 1<a class="anchor-link" href="#Option-1">&#182;</a></h3><p>Apply simulation on clearsky data and scale that</p>
-$$ \frac{P(G_{cs, t_0})}{P_{meas, t_0}} \cdot P\left( \{ G_{cs,t}\}_{t\in T} \right)$$<p>We are used to combine irradiance forecasts before applying such simulations, so this idea creates a few challenges.
+$$ \frac{P_{meas, t_0}}{P(G_{cs, t_0})} \cdot P\left( \{ G_{cs,t}\}_{t\in T} \right)$$<p>We are used to combine irradiance forecasts before applying such simulations, so this idea creates a few challenges.
 It would work, but in order to combine this persistence forecast with data from other sources, it would require an additional combination model.
 Such a combination model would in turn have to be trained on persistence power forecasts like this one, and would therefore require a certain amount of preparation.</p>
 
@@ -14278,14 +14278,14 @@ Such a combination model would in turn have to be trained on persistence power f
 <h3 id="Option-2">Option 2<a class="anchor-link" href="#Option-2">&#182;</a></h3><p>Apply a weight $\alpha$ on the clearsky model.  This weight should minimize this expression</p>
 $$ P\left( \alpha \cdot G_{cs,t_0} \right) - P_{meas,t_0} $$<p>with a solution to this, the forecast would then simply be</p>
 $$ P\left( \alpha \cdot \{G_{cs,t}\}_{t\in T} \right) $$<p>This kind of forecast could more easily be integrated in the kind of forecasts we are used to work with, but solving for $\alpha$ in real time, while taking care of potential faults etc is not trivial.</p>
-<p>Also $\frac{P(G_{cs, t_0})}{P_{meas, t_0}}$ would be a good candidate for the weight $\alpha$ or at least a starting point in case one runs an optimization algo.</p>
+<p>Also $\frac{P_{meas, t_0}}{P(G_{cs, t_0})}$ would be a good candidate for the weight $\alpha$ or at least a starting point in case one runs an optimization algo.</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Option-3">Option 3<a class="anchor-link" href="#Option-3">&#182;</a></h3><p>Instead of creating a separate persistence forecast, the measurement $P_{meas}$ could be used to scale power forecasts. Let $\{P_{fc,t}\}_{t\in T}$ be a power forecast, eg computed using weather models or satellite data, one could scale it using recent measurements:</p>
-$$ \frac{P_{fc,t_0}}{P_{meas, t_0}} \cdot \{P_{fc,t}\}_{t\in T}$$<p>We have no experience with this approach, and it probably would require some post processing to assure that physical limitations etc. are still upheld.</p>
+$$ \frac{P_{meas, t_0}}{P_{fc,t_0}} \cdot \{P_{fc,t}\}_{t\in T}$$<p>We have no experience with this approach, and it probably would require some post processing to assure that physical limitations etc. are still upheld.</p>
 
 </div>
 </div>
